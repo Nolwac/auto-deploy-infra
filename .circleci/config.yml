@@ -21,8 +21,8 @@ commands:
   install_bash:
     steps:
       - run:
-        name: install bash
-        command: apk add --no-cache --upgrade bash
+          name: install bash
+          command: apk add --no-cache --upgrade bash
           
 
 
