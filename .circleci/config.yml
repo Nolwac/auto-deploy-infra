@@ -33,7 +33,7 @@ jobs:
           name: Create Cloudformation Stack
           command: |
             aws cloudformation deploy \
-              --template-file template.yml \
+              --template-file server.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
       # Fail the job intentionally to simulate an error.
