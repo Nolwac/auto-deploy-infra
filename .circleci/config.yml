@@ -57,6 +57,9 @@ jobs:
           name: Make create_inventories.sh script executable
           command: chmod 400 create_inventories.sh
       - run:
+          name: install bash
+          command: apk add --no-cache --upgrade bash
+      - run:
           name: Create the inventory file
           command: bash ./create_inventories.sh
       - run:
@@ -70,5 +73,5 @@ workflows:
   my_workflow:
     # Run the welcome/run job in its own container
     jobs:
-      
+      # - create_infrastructure
       - configure_infrastructure
