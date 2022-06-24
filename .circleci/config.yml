@@ -41,6 +41,28 @@ jobs:
       # - run: return 1
       - destroy_environment
 
+  configure_infrastructure: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["${SSH_FINGERPRINT}"] # You can get this ID in the section where you registered the SSH Key
+      - run:
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            apk add --update ansible
+      - run:
+          name: Make create_inventories.sh script executable
+          command: sudo chmod 400 create_inventories.sh
+      - run:
+          name: Create the inventory file
+          command: ./create_inventories.sh
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory main_remote.yml
 
   
 workflows:
@@ -49,3 +71,6 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_infrastructure

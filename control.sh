@@ -1,0 +1,1 @@
+ansible-playbook main_remote.yaml -i inventory

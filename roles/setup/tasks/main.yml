@@ -1,0 +1,31 @@
+---
+- name: "update apt packages."
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: Install nodejs and npm
+  apt:
+    pkg:
+      - nodejs
+      - npm
+
+- name: Install pm2
+  become: yes
+  command:
+    cmd: npm install pm2@latest -g
+
+- name: copying server file to web
+  become: true 
+  copy:
+    src: files/index.js
+    dest: ~/web/index.js
+
+- name: Start the application
+  command:
+    cmd: pm2 start ~/web/index.js -f
