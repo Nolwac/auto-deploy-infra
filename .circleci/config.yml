@@ -54,6 +54,9 @@ jobs:
             # install the dependencies needed for your playbook
             apk add --update ansible
       - run:
+          name: Install open ssh 
+          command: apk add --update openssh-client git
+      - run:
           name: Make create_inventories.sh script executable
           command: chmod 400 create_inventories.sh
       - run:
