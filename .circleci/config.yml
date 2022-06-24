@@ -18,6 +18,11 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
+  install_bash:
+    steps:
+      - run:
+        name: install bash
+        command: apk add --no-cache --upgrade bash
           
 
 
@@ -59,9 +64,7 @@ jobs:
       - run:
           name: Make create_inventories.sh script executable
           command: chmod 400 create_inventories.sh
-      - run:
-          name: install bash
-          command: apk add --no-cache --upgrade bash
+      - install_bash
       - run:
           name: install awscli
           command: python -m pip install awscli
@@ -72,6 +75,15 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook -i inventory main_remote.yml -v
+  
+  perform_smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - install_bash
+      - run:
+          name: run smoke test
+          command: bash ./smoke_test.sh
 
   
 workflows:
@@ -79,7 +91,8 @@ workflows:
   my_workflow:
     # Run the welcome/run job in its own container
     jobs:
-      - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+      # - create_infrastructure
+      # - configure_infrastructure:
+      #     requires:
+      #       - create_infrastructure
+      - perform_smoke_test
