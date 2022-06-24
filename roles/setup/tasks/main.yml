@@ -19,6 +19,10 @@
   become: yes
   command:
     cmd: npm install pm2@latest -g
+    
+- name: Create web directory
+  command:
+    cmd: mkdir ~/web
 
 - name: copying server file to web
   become: true 
