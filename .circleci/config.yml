@@ -58,12 +58,11 @@ jobs:
           command: chmod 400 create_inventories.sh
       - run:
           name: Create the inventory file
-          command: ./create_inventories.sh
+          command: bash ./create_inventories.sh
       - run:
           name: Configure server
           command: |
             ansible-playbook -i inventory main_remote.yml
-      - destroy_environment
 
   
 workflows:
@@ -71,7 +70,5 @@ workflows:
   my_workflow:
     # Run the welcome/run job in its own container
     jobs:
-      - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+      
+      - configure_infrastructure
