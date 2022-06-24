@@ -81,6 +81,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - run: apk add --update curl
       - install_bash
       - run:
           name: run smoke test
