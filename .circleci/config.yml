@@ -80,6 +80,7 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
+      - checkout
       - install_bash
       - run:
           name: run smoke test
