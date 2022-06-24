@@ -1,0 +1,1 @@
+aws cloudformation deploy --template-file static-web.yml --stack-name production-distro --parameter-overrides PipelineID="$1" --tags project=udapeople &
